@@ -95,8 +95,8 @@ DATABASES = {
         "PORT": "5432",  # Default PostgreSQL port
     }
 }
-database_url=os.environ.get("DATABASE_URL")
-DATABASES["default"]=dj_database_url.parse(database_url)
+#database_url=os.environ.get("DATABASE_URL")
+DATABASES["default"]=dj_database_url.parse("postgres://farmat_user:nc4g7lKlDUM6Sjn2YxxsbcyAPdZqJ6Rd@dpg-cp607dacn0vc73bmdmv0-a.oregon-postgres.render.com/farmdb_tbx5")
 
 #postgres://farmat_user:nc4g7lKlDUM6Sjn2YxxsbcyAPdZqJ6Rd@dpg-cp607dacn0vc73bmdmv0-a.oregon-postgres.render.com/farmdb_tbx5
 # Password validation
