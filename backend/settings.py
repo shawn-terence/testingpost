@@ -12,10 +12,10 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 from pathlib import Path
 import os
+import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
@@ -24,9 +24,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-yw+sx9_*_$rb9bxkjdf%_d&5hovn2e&i5-#z7y7&=$o9g2$oj2"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get("DEBUG","FALSE").lower()==true
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -41,12 +42,15 @@ INSTALLED_APPS = [
     "api",
     "corsheaders",
 ]
+
 AUTH_USER_MODEL = "api.User"
+
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": [
         "rest_framework.authentication.TokenAuthentication",
     ],
 }
+
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
@@ -78,18 +82,23 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "backend.wsgi.application"
 
-
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": "farmartdb",
+        "USER": "postgres",
+        "PASSWORD": "password",
+        "HOST": "localhost",  # Set to your database host if different
+        "PORT": "5432",  # Default PostgreSQL port
     }
 }
+database_url=os.environ.get("DATABASE_URL")
+DATABASES["default"]=dj_database_url.parse(database_url)
 
-
+#postgres://farmat_user:nc4g7lKlDUM6Sjn2YxxsbcyAPdZqJ6Rd@dpg-cp607dacn0vc73bmdmv0-a.oregon-postgres.render.com/farmdb_tbx5
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
 
@@ -108,7 +117,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
@@ -120,7 +128,6 @@ USE_I18N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
@@ -128,9 +135,11 @@ STATIC_URL = "static/"
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
 MEDIA_URL = "media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
-CORS_ALLOW_ALL_ORIGINS=True
-CORS_ALLOW_CREDENTIALS=True
+
+CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_CREDENTIALS = True
