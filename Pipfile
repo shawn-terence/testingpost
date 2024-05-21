@@ -17,6 +17,7 @@ python-dotenv = "*"
 black = "*"
 pillow = "*"
 dj-database-url = "*"
+gunicorn = "*"
 
 [dev-packages]
 
